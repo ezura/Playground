@@ -2,8 +2,7 @@
 
 import UIKit
 
-import Foundation
-
+/// The Protocol  recievable language change notification
 protocol LocalizeSupportType : class {
     var language: String { get set }
 }
@@ -63,13 +62,11 @@ class ReceiverManager : SequenceType {
         _weakContainerRef._containers.append(x)
     }
     
-    func publish(language: String) -> Int {
-        receivers.forEach {
+    /// notice to observers
+    func publish(language: String) {
+        _weakContainerRef.forEach {
             $0.language = language
         }
-        
-        // for Debug
-        return receivers.count
     }
 }
 
