@@ -35,7 +35,6 @@ class ReceiverManager {
             _containers = containersExcludeNilContiner
         }
         
-        func generate() -> AnyGenerator<LocalizeSupportType> {
         func generate() -> AnyGenerator<ContentType> {
             return AnyGenerator(containersExcludeNilContiner.map { $0.receiver! }.generate())
         }
