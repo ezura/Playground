@@ -13,30 +13,30 @@ class ReceiverManager {
     private class _WeakContainerRef: SequenceType {
         typealias ContentType = LocalizeSupportType
         
-        struct WeakContainer {
-            weak var receiver: ContentType?
+        struct WeakElement {
+            weak var content: ContentType?
             
-            init(_ receiver: ContentType) {
-                self.receiver = receiver
+            init(_ content: ContentType) {
+                self.content = content
             }
         }
         
-        var _containers: [WeakContainer]
+        var _containers: [WeakElement]
         
-        var containersExcludeNilContiner: [WeakContainer] {
-            return _containers.filter { $0.receiver != nil }
+        var containersExcludeNilContiner: [WeakElement] {
+            return _containers.filter { $0.content != nil }
         }
         
         var receivers: [ContentType] {
-            return containersExcludeNilContiner.map { $0.receiver! }
+            return containersExcludeNilContiner.map { $0.content! }
         }
         
-        init(containers: [WeakContainer]) {
+        init(containers: [WeakElement]) {
             _containers = containers
         }
         
         func append(element: ContentType) {
-            _containers.append(WeakContainer(element))
+            _containers.append(WeakElement(element))
         }
         
         /// remove released elements
@@ -45,27 +45,27 @@ class ReceiverManager {
         }
         
         func generate() -> AnyGenerator<ContentType> {
-            return AnyGenerator(containersExcludeNilContiner.map { $0.receiver! }.generate())
+            return AnyGenerator(containersExcludeNilContiner.map { $0.content! }.generate())
         }
     }
     
-    private var _weakContainerRef: _WeakContainerRef
+    private var registrants: _WeakContainerRef
     
     init() {
-        _weakContainerRef = _WeakContainerRef(containers: [])
+        registrants = _WeakContainerRef(containers: [])
     }
     
-    init<T:LocalizeSupportType>(objects: T...) {
-        _weakContainerRef = _WeakContainerRef(containers: objects.map(_WeakContainerRef.WeakContainer.init))
+    init(objects: LocalizeSupportType...) {
+        registrants = _WeakContainerRef(containers: objects.map(_WeakContainerRef.WeakElement.init))
     }
     
-    func assign<T:LocalizeSupportType>(x: T) {
-        _weakContainerRef.append(x)
+    func assign(x: LocalizeSupportType) {
+        registrants.append(x)
     }
     
     /// notice to observers
     func publish(language: String) {
-        _weakContainerRef.forEach {
+        registrants.forEach {
             $0.language = language
         }
     }
