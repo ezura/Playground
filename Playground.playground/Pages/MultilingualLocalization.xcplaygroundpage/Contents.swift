@@ -8,12 +8,11 @@ protocol LocalizeSupportType : class {
 }
 
 class ReceiverManager {
-    
     // hold weak reference objects
     private class WeakContainer: SequenceType {
         typealias ContentType = LocalizeSupportType
         
-        struct WeakElement {
+        struct WeakContent {
             weak var content: ContentType?
             
             init(_ content: ContentType) {
@@ -21,10 +20,10 @@ class ReceiverManager {
             }
         }
         
-        var _containers: [WeakElement]
+        var containers: [WeakContent]
         
-        var containersExcludeNilContiner: [WeakElement] {
-            return _containers.filter { $0.content != nil }
+        var containersExcludeNilContiner: [WeakContent] {
+            return containers.filter { $0.content != nil }
         }
         
         var receivers: [ContentType] {
@@ -32,16 +31,16 @@ class ReceiverManager {
         }
         
         init(containers: [ContentType]) {
-            _containers = containers.map(WeakElement.init)
+            self.containers = containers.map(WeakContent.init)
         }
         
         func append(element: ContentType) {
-            _containers.append(WeakElement(element))
+            containers.append(WeakContent(element))
         }
         
         /// remove released elements
         func dropWeaks() {
-            _containers = containersExcludeNilContiner
+            containers = containersExcludeNilContiner
         }
         
         func generate() -> AnyGenerator<ContentType> {
