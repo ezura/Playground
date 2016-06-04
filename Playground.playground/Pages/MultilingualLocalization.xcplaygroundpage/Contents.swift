@@ -2,9 +2,14 @@
 
 import UIKit
 
+
+enum Language {
+    case Japanese, English, Chinese
+}
+
 /// recievable language change notification
 protocol LocalizeSupportType : class {
-    var language: String { get set }
+    var language: Language { get set }
 }
 
 extension LocalizeSupportType {
@@ -69,7 +74,7 @@ class ReceiverManager {
     }
     
     /// notice to observers
-    func publish(language: String) {
+    func publish(language: Language) {
         registrants.forEach {
             $0.language = language
         }
@@ -85,7 +90,7 @@ internal(set) var receiverManager: ReceiverManager = ReceiverManager()
 class MyClass1 : LocalizeSupportType {
     
     var value: Int
-    var language: String = "JP" {
+    var language: Language = .Japanese {
         
         didSet {
             
@@ -101,7 +106,12 @@ class MyClass1 : LocalizeSupportType {
 class MyClass2 : LocalizeSupportType {
     
     var value: Int
-    var language: String = "EN"
+    var language: Language = .Japanese {
+        
+        didSet {
+            
+        }
+    }
     
     init(_ value: Int) {
         self.value = value
@@ -110,7 +120,7 @@ class MyClass2 : LocalizeSupportType {
 
 class UIViewController : LocalizeSupportType {
     
-    var language: String = "JP" {
+    var language: Language = .Japanese {
         
         didSet {
             
@@ -140,7 +150,7 @@ obj3.language
 obj1 = nil
 
 // これは WeakReceiverManager が言語の変更通知を受けとって、内部で実行する
-receiverManager.publish("xx")
+receiverManager.publish(.English)
 
 obj2.language
 obj3.language
