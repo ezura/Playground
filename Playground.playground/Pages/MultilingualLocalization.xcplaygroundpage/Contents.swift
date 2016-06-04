@@ -2,7 +2,7 @@
 
 import UIKit
 
-/// The Protocol  recievable language change notification
+/// The Protocol recievable language change notification
 protocol LocalizeSupportType : class {
     var language: String { get set }
 }
@@ -10,7 +10,7 @@ protocol LocalizeSupportType : class {
 class ReceiverManager {
     
     // hold weak reference objects
-    private class _WeakContainerRef: SequenceType {
+    private class WeakContainer: SequenceType {
         typealias ContentType = LocalizeSupportType
         
         struct WeakElement {
@@ -49,14 +49,14 @@ class ReceiverManager {
         }
     }
     
-    private var registrants: _WeakContainerRef
+    private var registrants: WeakContainer
     
     init() {
-        registrants = _WeakContainerRef(containers: [])
+        registrants = WeakContainer(containers: [])
     }
     
     init(objects: LocalizeSupportType...) {
-        registrants = _WeakContainerRef(containers: objects.map(_WeakContainerRef.WeakElement.init))
+        registrants = WeakContainer(containers: objects.map(WeakContainer.WeakElement.init))
     }
     
     func assign(x: LocalizeSupportType) {
