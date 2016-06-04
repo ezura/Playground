@@ -7,10 +7,10 @@ protocol LocalizeSupportType : class {
     var language: String { get set }
 }
 
-class ReceiverManager : SequenceType {
+class ReceiverManager {
     
-    private class _WeakContainerRef {
-        
+    // hold weak reference objects
+    private class _WeakContainerRef: SequenceType {
         struct WeakContainer {
             weak var receiver: LocalizeSupportType?
         }
@@ -48,18 +48,8 @@ class ReceiverManager : SequenceType {
         _weakContainerRef = _WeakContainerRef(containers: objects.map(_WeakContainerRef.WeakContainer.init))
     }
     
-    var receivers: [LocalizeSupportType] {
-        return _weakContainerRef.receivers
-    }
-    
-    func generate() -> AnyGenerator<LocalizeSupportType> {
-        _weakContainerRef.dropWeaks()
-        return _weakContainerRef.generate()
-    }
-
     func assign<T:LocalizeSupportType>(x: T) {
-        let x = _WeakContainerRef.WeakContainer(receiver: x)
-        _weakContainerRef._containers.append(x)
+        _weakContainerRef.append(x)
     }
     
     /// notice to observers
