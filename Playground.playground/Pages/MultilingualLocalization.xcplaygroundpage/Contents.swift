@@ -15,6 +15,10 @@ class ReceiverManager {
         
         struct WeakContainer {
             weak var receiver: ContentType?
+            
+            init(_ receiver: ContentType) {
+                self.receiver = receiver
+            }
         }
         
         var _containers: [WeakContainer]
@@ -31,6 +35,11 @@ class ReceiverManager {
             _containers = containers
         }
         
+        func append(element: ContentType) {
+            _containers.append(WeakContainer(element))
+        }
+        
+        /// remove released elements
         func dropWeaks() {
             _containers = containersExcludeNilContiner
         }
