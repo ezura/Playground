@@ -31,8 +31,8 @@ class ReceiverManager {
             return containersExcludeNilContiner.map { $0.content! }
         }
         
-        init(containers: [WeakElement]) {
-            _containers = containers
+        init(containers: [ContentType]) {
+            _containers = containers.map(WeakElement.init)
         }
         
         func append(element: ContentType) {
@@ -56,7 +56,7 @@ class ReceiverManager {
     }
     
     init(objects: LocalizeSupportType...) {
-        registrants = WeakContainer(containers: objects.map(WeakContainer.WeakElement.init))
+        registrants = WeakContainer(containers: objects)
     }
     
     func assign(x: LocalizeSupportType) {
