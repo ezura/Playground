@@ -11,8 +11,10 @@ class ReceiverManager {
     
     // hold weak reference objects
     private class _WeakContainerRef: SequenceType {
+        typealias ContentType = LocalizeSupportType
+        
         struct WeakContainer {
-            weak var receiver: LocalizeSupportType?
+            weak var receiver: ContentType?
         }
         
         var _containers: [WeakContainer]
@@ -21,7 +23,7 @@ class ReceiverManager {
             return _containers.filter { $0.receiver != nil }
         }
         
-        var receivers: [LocalizeSupportType] {
+        var receivers: [ContentType] {
             return containersExcludeNilContiner.map { $0.receiver! }
         }
         
@@ -34,6 +36,7 @@ class ReceiverManager {
         }
         
         func generate() -> AnyGenerator<LocalizeSupportType> {
+        func generate() -> AnyGenerator<ContentType> {
             return AnyGenerator(containersExcludeNilContiner.map { $0.receiver! }.generate())
         }
     }
