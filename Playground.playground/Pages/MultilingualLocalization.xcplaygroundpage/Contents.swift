@@ -2,9 +2,15 @@
 
 import UIKit
 
-/// The Protocol recievable language change notification
+/// recievable language change notification
 protocol LocalizeSupportType : class {
     var language: String { get set }
+}
+
+extension LocalizeSupportType {
+    func beginLocalizing() {
+        receiverManager.assign(self)
+    }
 }
 
 class ReceiverManager {
@@ -70,6 +76,12 @@ class ReceiverManager {
     }
 }
 
+internal(set) var receiverManager: ReceiverManager = ReceiverManager()
+
+
+
+
+
 class MyClass1 : LocalizeSupportType {
     
     var value: Int
@@ -93,14 +105,6 @@ class MyClass2 : LocalizeSupportType {
     
     init(_ value: Int) {
         self.value = value
-    }
-}
-
-internal(set) var receiverManager: ReceiverManager = ReceiverManager()
-
-extension LocalizeSupportType {
-    func beginLocalizing() {
-        receiverManager.assign(self)
     }
 }
 
