@@ -2,13 +2,12 @@
 
 import UIKit
 
-
 enum Language {
     case Japanese, English, Chinese
 }
 
 /// recievable language change notification
-protocol LocalizeSupportType : class {
+protocol LocalizeSupportType: class {
     var language: Language { get set }
 }
 
@@ -22,9 +21,9 @@ extension LocalizeSupportType {
     }
 }
 
-class ReceiverManager {
+private class ReceiverManager {
     // hold weak reference objects
-    private class WeakContainer: SequenceType {
+    class WeakContainer: SequenceType {
         typealias ContentType = LocalizeSupportType
         
         struct WeakContent {
@@ -96,7 +95,7 @@ class ReceiverManager {
     }
 }
 
-internal(set) var receiverManager: ReceiverManager = ReceiverManager()
+private var receiverManager: ReceiverManager = ReceiverManager()
 
 
 
