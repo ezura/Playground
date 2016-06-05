@@ -4,6 +4,14 @@ import UIKit
 
 enum Language {
     case Japanese, English, Chinese
+    
+    func stringFileName() -> String {
+        switch self {
+        case .Japanese: return "Japanese"
+        case .English:  return "English"
+        case .Chinese:  return "Chinese"
+        }
+    }
 }
 
 /// recievable language change notification
@@ -13,7 +21,7 @@ protocol LocalizeSupportType: class {
 
 extension LocalizeSupportType {
     func beginLocalizing() {
-        localizeNotificationManager.assign(self)
+        localizeNotificationManager.register(self)
     }
     
     func endLocalizing() {
@@ -79,11 +87,11 @@ class LocalizeNotificationManager {
         registrants = WeakContainer(containers: objects)
     }
     
-    func assign(object: LocalizeSupportType) {
+    private func register(object: LocalizeSupportType) {
         registrants.append(object)
     }
     
-    func remove(object: LocalizeSupportType) {
+    private func remove(object: LocalizeSupportType) {
         registrants.remove(object)
     }
     
