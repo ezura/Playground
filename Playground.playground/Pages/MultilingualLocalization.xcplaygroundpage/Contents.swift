@@ -16,6 +16,10 @@ extension LocalizeSupportType {
     func beginLocalizing() {
         receiverManager.assign(self)
     }
+    
+    func endLocalizing() {
+        receiverManager.remove(self)
+    }
 }
 
 class ReceiverManager {
@@ -49,6 +53,13 @@ class ReceiverManager {
             containers.append(WeakContent(element))
         }
         
+        func remove(element: ContentType) {
+            let index = containers.indexOf { return $0.content === element }
+            if let index = index {
+                containers.removeAtIndex(index)
+            }
+        }
+        
         /// remove released elements
         func dropWeaks() {
             containers = containersExcludeNilContiner
@@ -69,8 +80,12 @@ class ReceiverManager {
         registrants = WeakContainer(containers: objects)
     }
     
-    func assign(x: LocalizeSupportType) {
-        registrants.append(x)
+    func assign(object: LocalizeSupportType) {
+        registrants.append(object)
+    }
+    
+    func remove(object: LocalizeSupportType) {
+        registrants.remove(object)
     }
     
     /// notice to observers
@@ -146,6 +161,8 @@ obj4.beginLocalizing()
 
 obj2.language
 obj3.language
+
+obj3.endLocalizing()
 
 obj1 = nil
 
