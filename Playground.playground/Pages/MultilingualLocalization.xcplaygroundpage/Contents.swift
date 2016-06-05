@@ -13,17 +13,17 @@ protocol LocalizeSupportType: class {
 
 extension LocalizeSupportType {
     func beginLocalizing() {
-        receiverManager.assign(self)
+        localizeNotificationManager.assign(self)
     }
     
     func endLocalizing() {
-        receiverManager.remove(self)
+        localizeNotificationManager.remove(self)
     }
 }
 
-private class ReceiverManager {
+class LocalizeNotificationManager {
     // hold weak reference objects
-    class WeakContainer: SequenceType {
+    private class WeakContainer: SequenceType {
         typealias ContentType = LocalizeSupportType
         
         struct WeakContent {
@@ -95,7 +95,7 @@ private class ReceiverManager {
     }
 }
 
-private var receiverManager: ReceiverManager = ReceiverManager()
+internal(set) var localizeNotificationManager = LocalizeNotificationManager()
 
 
 
@@ -166,7 +166,7 @@ obj3.endLocalizing()
 obj1 = nil
 
 // これは WeakReceiverManager が言語の変更通知を受けとって、内部で実行する
-receiverManager.publish(.English)
+localizeNotificationManager.publish(.English)
 
 obj2.language
 obj3.language
