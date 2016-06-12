@@ -156,6 +156,28 @@ class UIViewController : LocalizeSupportType {
     }
 }
 
+struct Sample {
+    var x = 0
+    // 返り値使わなかったら警告だしてくれる
+    // さらに、mutable_variant を指定していた場合、代わりにこれ使ってね (Fix-it) ってメッセージが出る。
+    @warn_unused_result(mutable_variant="mutatingSampleFunc")
+    func sampleFunc() -> Int {
+        return x + 1
+    }
+    
+    mutating func mutatingSampleFunc() {
+        x += 1
+    }
+}
+
+var a = Sample()
+
+// @warn_unused_result(mutable_variant="mutatingSampleFunc") にしてるメソッド
+// warning: Result of call to non-mutating function 'sampleFunc()' is unused; use 'mutatingSampleFunc()' to mutate in-place
+// 警告マーク押すと、mutatingSampleFunc に置き換えてくれる
+a.sampleFunc()
+
+
 var obj1 = MyClass1(100) as Optional
 let obj2 = MyClass1(10)
 let obj3 = MyClass2(20)
