@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='ios' display-mode='rendered'>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
         <page name='MultilingualLocalization'/>
         <page name='TypeName'/>
@@ -8,6 +8,16 @@
         <page name='available'/>
         <page name='noreturn'/>
         <page name='warn_unused_result'/>
-        <page name='Untitled Page'/>
+        <page name='CSwift0611'/>
+        <page name='Capture'/>
+        <page name='zundoko'/>
+        <page name='String'/>
+        <page name='String2'/>
+        <page name='Tuple'/>
+        <page name='Alert'/>
+        <page name='defer_let'/>
+        <page name='lazy_IUO'/>
+        <page name='Keyboard'/>
+        <page name='refact1'/>
     </pages>
 </playground>
