@@ -10,7 +10,6 @@
         <page name='warn_unused_result'/>
         <page name='CSwift0611'/>
         <page name='Capture'/>
-        <page name='zundoko'/>
         <page name='String'/>
         <page name='String2'/>
         <page name='Tuple'/>
@@ -19,5 +18,6 @@
         <page name='lazy_IUO'/>
         <page name='Keyboard'/>
         <page name='refact1'/>
+        <page name='Lazy'/>
     </pages>
 </playground>
